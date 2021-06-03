@@ -6,16 +6,14 @@ import java.util.Map;
 public class Login {
 
     public static void main(String[] args) {
-        login("admin","admin");
-        login("pranjal","1234");
-    }
-
-    private static void login(String username, String password) {
-        boolean isValid = validateUser(username, password);
+        String username = "admin";
+        String password = "admin";
+        String storedPassword = datastore().get(username);
+        boolean isValid = (storedPassword == null || !storedPassword.equals(password)) ? false : true;
         if(isValid) {
-            loginSuccessful();
+            System.out.println("Yuppie!! You are logged in successfully.");
         } else {
-            loginFailed();
+            System.out.println("Oops!! Incorrect credentials provided.");
         }
     }
 
@@ -26,16 +24,4 @@ public class Login {
         return loginCredentials;
     }
 
-    private static boolean validateUser(String username, String password) {
-        String storedPassword = datastore().get(username);
-        return (storedPassword == null || !storedPassword.equals(password)) ? false : true;
-    }
-
-    private static void loginSuccessful() {
-        System.out.println("Yuppie!! You are logged in successfully.");
-    }
-
-    private static void loginFailed() {
-        System.out.println("Oops!! Incorrect credentials provided.");
-    }
 }
